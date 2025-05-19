@@ -1,0 +1,193 @@
+
+<div class="min-h-screen bg-gray-900 text-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-12">
+    <i class="fas fa-spinner fa-spin text-indigo-500 text-4xl mb-4"></i>
+    <p class="text-lg text-gray-300">Loading book details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage" class="max-w-3xl mx-auto bg-red-800/50 border border-red-700 rounded-lg p-4 mb-6">
+    <div class="flex items-start">
+      <i class="fas fa-exclamation-circle text-red-300 mt-1 mr-3"></i>
+      <div>
+        <p class="text-red-100">{{ errorMessage }}</p>
+        <a routerLink="/books" class="text-indigo-300 hover:text-indigo-200 inline-block mt-2">
+          <i class="fas fa-arrow-left mr-1"></i> Back to books
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Book Card -->
+  <div *ngIf="book && !isLoading && !errorMessage" class="max-w-6xl mx-auto">
+    <div class="bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 p-6">
+        <!-- Left Column - Book Cover & Basic Info -->
+        <div class="lg:col-span-1 flex flex-col">
+          <!-- Book Cover -->
+          <div class="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-gray-700 shadow-lg">
+            <img 
+              [src]="book.imageUrl || '/assets/default-book.jpg'"  
+              alt="{{ book.title }}"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+          
+          <!-- Title & Author -->
+          <div class="mt-6 text-center">
+            <h1 class="text-2xl font-bold text-white">{{ book.title }}</h1>
+            <p class="text-gray-400 mt-1">
+              <i class="fas fa-user-edit text-blue-400 mr-1"></i>
+              {{ book.author || "Unknown Author" }}
+            </p>
+            <p class="text-gray-500 text-sm mt-1">
+              <i class="fas fa-star text-yellow-400 mr-1"></i>
+              {{ book.edition }} Edition
+            </p>
+          </div>
+
+          <!-- Like Button -->
+          <div class="mt-6 flex justify-center">
+            <div class=" ">
+              <app-book-like 
+                [bookId]="book.id"
+                [initialCount]="book.likeCount"
+                [initialLiked]="book.isLiked"
+                class="mr-2 text-indigo-400 hover:text-indigo-300"
+              ></app-book-like>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="mt-6 flex flex-col gap-3">
+            <app-exchange-button
+              [bookId]="book.id"
+              [ownerId]="book.user?.id"
+              [bookAvailable]="book.available"
+              class="w-full"
+            ></app-exchange-button>
+
+            <a 
+              routerLink="/books" 
+              class="inline-flex items-center justify-center px-4 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 transition-colors"
+            >
+              <i class="fas fa-arrow-left mr-2"></i> Back to Books
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Column - Detailed Information -->
+        <div class="lg:col-span-2 space-y-6">
+          <!-- Description Section -->
+          <div class="bg-gray-700/50 p-4 rounded-xl">
+            <h2 class="flex items-center text-xl font-semibold text-white mb-3">
+              <i class="fas fa-align-left text-indigo-400 mr-2"></i>
+              Description
+            </h2>
+            <p class="text-gray-300 whitespace-pre-line">
+              {{ book.description || "No description provided." }}
+            </p>
+          </div>
+
+          <!-- Details Sections -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Left Details -->
+            <div class="space-y-4">
+              <!-- Subject & Category -->
+              <div class="bg-gray-700/50 p-4 rounded-xl">
+                <h3 class="flex items-center text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">
+                  <i class="fas fa-book-open text-indigo-400 mr-2"></i>
+                  Book Details
+                </h3>
+                <p class="text-white-300 mb-2">
+                  <span class="fas fa-book mr-1 text-blue-400"></span>Subject: {{ book.subject }}
+                </p>
+                <p class="text-white-300">
+                  <span class="fas fa-tags mr-1 text-purple-400"></span>Category: {{ book.category?.name || 'Not specified' }}
+                </p>
+              </div>
+
+              <!-- Listing Details -->
+              <div class="bg-gray-700/50 p-4 rounded-xl">
+                <h3 class="flex items-center text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">
+                  <i class="fas fa-tag text-yellow-400 mr-2"></i>
+                  Listing Information
+                </h3>
+                
+                <p class="text-gray-300 mb-2">
+                  <span class="fas fa-list-alt mr-1 text-pink-400"></span> 
+                  <span class="capitalize">Type: {{ book.listingType?.toLowerCase() }}</span>
+                </p>
+                
+                <div *ngIf="book.listingType === 'SELL'" class="mb-2">
+                  <p class="text-green-400">
+                    <i class="fas fa-rupee-sign mr-1"></i>
+                    <span class="font-medium">Price:</span> ₹{{ book.price }}
+                  </p>
+                </div>
+                
+                <div *ngIf="book.listingType === 'EXCHANGE'" class="mb-2">
+                  <p>
+                    <i class="fas fa-exchange-alt text-yellow-300 mr-1"></i>
+                    <span class="font-medium">Exchange for:</span> {{ book.expectedExchange }}
+                  </p>
+                </div>
+
+                <p class="fas fa-user-edit text-blue-400">
+                  <span class="font-medium text-white"> Listed By:</span> {{ book.user?.name || "Unknown" }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Right Details -->
+            <div class="space-y-4">
+              <!-- Condition -->
+              <div class="bg-gray-700/50 p-4 rounded-xl">
+                <h3 class="flex items-center text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">
+                  <i class="fas fa-layer-group mr-1 text-green-400"></i>
+                  Condition & Status
+                </h3>
+                <p class="text-gray-300 mb-2">
+                  <span class="font-medium text-white"> Condition : </span> 
+                  <span class="capitalize">{{ book.condition || book.bookCondition }}</span>
+                </p>
+                <div class="flex items-center">
+                  <span class="font-medium text-white mr-2">Status : </span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                        [class.bg-green-900]="book.available"
+                        [class.text-green-300]="book.available"
+                        [class.bg-red-900]="!book.available"
+                        [class.text-red-300]="!book.available">
+                    <i class="fas fa-circle text-[0.5rem] mr-1"></i>
+                    {{ book.available ? 'Available' : 'Not Available' }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Additional Info -->
+              <div class="bg-gray-700/50 p-4 rounded-xl">
+                <h3 class="flex items-center text-sm font-medium text-gray-400 uppercase tracking-wider mb-2">
+                  <i class="fas fa-info-circle text-cyan-400 mr-2"></i>
+                  Additional Information
+                </h3>
+                <p class="text-gray-300 mb-2">
+                  <span class="font-medium text-white">Edition:</span> {{ book.edition }}
+                </p>
+                <p class="text-gray-300">
+                  <span class="font-medium text-white">Listed On:</span> 
+                  <ng-container *ngIf="book.createdAt; else unknownDate">
+                    {{ book.createdAt | date:'mediumDate' }}
+                  </ng-container>
+                  <ng-template #unknownDate>
+                    Unknown date
+                  </ng-template>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

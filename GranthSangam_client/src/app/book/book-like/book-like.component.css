@@ -1,0 +1,132 @@
+
+.like-container {
+  display: inline-block;
+  position: relative;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.like-button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.like-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.like-button.liked {
+  background-color: #ffebee;
+}
+
+.like-button.liked .like-count {
+  color: #d32f2f;
+}
+
+.heart-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #666;
+  stroke-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.heart-icon.filled {
+  fill: #d32f2f;
+  stroke: #d32f2f;
+}
+
+.like-button.liked .heart-icon {
+  animation: heartBeat 0.5s;
+}
+
+.like-count {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  min-width: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #666;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 4px;
+}
+
+.like-button.loading .like-icon,
+.like-button.loading .like-count {
+  opacity: 0.5;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  margin-top: 5px;
+}
+
+.like-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .like-button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  
+  .heart-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .like-count {
+    font-size: 13px;
+  }
+}

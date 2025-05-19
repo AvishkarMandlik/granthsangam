@@ -1,0 +1,81 @@
+<!-- exchange-management.component.html -->
+<div class="bg-gray-800 rounded-xl shadow-lg p-6">
+  <h2 class="text-xl font-bold mb-6 flex items-center">
+    <i class="fas fa-exchange-alt text-indigo-400 mr-3"></i>
+    Exchange Management
+  </h2>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+    <i class="fas fa-spinner fa-spin text-indigo-500 text-4xl mr-4"></i>
+    <span class="text-xl">Loading exchange data...</span>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-gray-700 rounded-lg p-4">
+        <h3 class="text-lg font-semibold mb-2">Exchange Stats</h3>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <span>Pending:</span>
+            <span class="font-bold">{{ exchangeStats.pending || 0 }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Approved:</span>
+            <span class="font-bold">{{ exchangeStats.approved || 0 }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Completed:</span>
+            <span class="font-bold">{{ exchangeStats.completed || 0 }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Rejected:</span>
+            <span class="font-bold">{{ exchangeStats.rejected || 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-gray-700 rounded-lg overflow-hidden">
+        <thead class="bg-gray-600">
+          <tr>
+            <th class="px-4 py-3 text-left">ID</th>
+            <th class="px-4 py-3 text-left">Book</th>
+            <th class="px-4 py-3 text-left">From User</th>
+            <th class="px-4 py-3 text-left">To User</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            <th class="px-4 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exchange of allExchanges" class="border-t border-gray-600 hover:bg-gray-650">
+            <td class="px-4 py-3">{{ exchange.id }}</td>
+            <td class="px-4 py-3">{{ exchange.requestedBook?.title || 'N/A' }}</td>
+            <td class="px-4 py-3">{{ exchange.fromUser?.name || 'N/A' }}</td>
+            <td class="px-4 py-3">{{ exchange.toUser?.name || 'N/A' }}</td>
+            <td class="px-4 py-3">
+              <span [class]="getStatusClass(exchange.status)" class="px-2 py-1 rounded-full text-xs font-medium">
+                {{ exchange.status }}
+              </span>
+            </td>
+            <td class="px-4 py-3 space-x-2 whitespace-nowrap">
+              <button *ngIf="exchange.status === 'PENDING'" (click)="approveExchange(exchange.id)"
+                class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">
+                Approve
+              </button>
+              <button *ngIf="exchange.status === 'PENDING'" (click)="rejectExchange(exchange.id)"
+                class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+                Reject
+              </button>
+              <button *ngIf="exchange.status !== 'COMPLETED' && exchange.status !== 'REJECTED'"
+                (click)="cancelExchange(exchange.id)"
+                class="bg-gray-600 hover:bg-gray-700 px-3 py-1 rounded text-sm">
+                Cancel
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,309 @@
+<!-- 
+<nav class="sticky top-0 z-50 bg-gray-900 shadow-lg px-4 py-3 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a routerLink="/home" class="flex items-center text-white hover:text-indigo-400 transition-colors">
+      <i class="fas fa-book-open text-indigo-400 text-2xl mr-2"></i>
+      <span class="font-bold hidden sm:inline text-xl">GranthSangam</span>
+    </a>
+
+    <button (click)="isMenuOpen = !isMenuOpen" class="lg:hidden text-gray-300 hover:text-indigo-400 text-2xl focus:outline-none">
+      <i class="fas" [ngClass]="isMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+    </button>
+
+    <div class="hidden lg:flex items-center space-x-8">
+      <div class="flex items-center space-x-8">
+        <a routerLink="/home" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Home">
+          <i class="fas fa-home text-2xl"></i>
+        </a>
+        <a routerLink="/books" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Browse Books">
+          <i class="fas fa-book text-2xl"></i>
+        </a>
+        <a routerLink="/about" class="text-gray-300 hover:text-indigo-400 transition-colors" title="About">
+          <i class="fas fa-info-circle text-2xl"></i>
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/exchange" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Exchange">
+          <i class="fas fa-exchange-alt text-2xl"></i>
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/upload" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Upload Book">
+          <i class="fas fa-upload text-2xl"></i>
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-6 ml-6">
+        <div class="relative">
+          <button 
+            (click)="toggleNotifications()" 
+            data-notification-button
+            class="text-gray-300 hover:text-indigo-500 relative transition-colors"
+          >
+            <i class="fas fa-bell text-2xl"></i>
+            <span *ngIf="unreadCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+              {{ unreadCount }}
+            </span>
+          </button>
+          <div 
+            *ngIf="showNotifications" 
+            class="notification-dropdown absolute right-0 w-80 bg-gray-800 border border-gray-700 text-gray-100 mt-3 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto"
+          >
+            <div *ngFor="let notification of notifications" 
+                 (click)="markAsRead(notification.id)"
+                 [ngClass]="notification.seen ? 'bg-gray-700' : 'bg-indigo-900'"
+                 class="px-4 py-3 cursor-pointer hover:bg-gray-700 text-sm border-b border-gray-700 last:border-b-0">
+              <div class="flex">
+                <i class="fas fa-bell mr-3 mt-0.5 text-indigo-400"></i>
+                <div>
+                  <div class="font-medium">{{ notification.message }}</div>
+                  <div class="text-xs text-gray-400 mt-1">{{ notification.createdAt | date:'short' }}</div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="notifications.length === 0" class="px-4 py-3 text-sm text-gray-400">
+              No new notifications
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="authService.isAuthenticated" class="relative">
+          <button 
+            (click)="toggleProfile()" 
+            data-profile-button
+            class="text-gray-300 hover:text-indigo-500 transition-colors"
+          >
+            <i class="fas fa-user-circle text-2xl"></i>
+          </button>
+          <div 
+            *ngIf="showProfile" 
+            class="profile-dropdown absolute right-0 w-56 bg-gray-800 border border-gray-700 text-gray-100 mt-3 rounded-lg shadow-xl z-50"
+          >
+            <div class="px-4 py-3 border-b border-gray-700 bg-gray-900">
+              <div class="font-medium text-indigo-400">{{ authService.getUsername() }}</div>
+              <div class="text-xs text-gray-400">{{ authService.getUserEmail() }}</div>
+            </div>
+            <a routerLink="/profile" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-user-edit mr-3 text-indigo-400"></i> Profile
+            </a>
+            <a routerLink="/my-books" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-book mr-3 text-indigo-400"></i> My Books
+            </a>
+            <div class="border-t border-gray-700">
+              <button (click)="logout()" class="flex items-center w-full text-left px-4 py-3 hover:bg-gray-700 text-sm text-red-400">
+                <i class="fas fa-sign-out-alt mr-3"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!authService.isAuthenticated" class="flex space-x-3">
+          <a routerLink="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm rounded-md transition-colors flex items-center">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login
+          </a>
+          <a routerLink="/register" class="px-4 py-2 border border-indigo-600 text-indigo-400 hover:bg-indigo-900/50 text-sm rounded-md transition-colors flex items-center">
+            <i class="fas fa-user-plus mr-2"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div [ngClass]="{ 'block': isMenuOpen, 'hidden': !isMenuOpen }" 
+         class="lg:hidden absolute top-16 left-0 right-0 bg-gray-800 p-4 shadow-lg z-40">
+      <div class="flex flex-col space-y-4">
+        <a routerLink="/home" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-home mr-3 text-xl"></i> Home
+        </a>
+        <a routerLink="/books" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-book mr-3 text-xl"></i> Browse Books
+        </a>
+        <a routerLink="/about" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-info-circle mr-3 text-xl"></i> About
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/exchange" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-exchange-alt mr-3 text-xl"></i> Exchange
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/upload-book" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-upload mr-3 text-xl"></i> Upload Book
+        </a>
+        
+        <div *ngIf="!authService.isAuthenticated" class="flex space-x-3 pt-4">
+          <a routerLink="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm rounded-md flex-1 text-center flex items-center justify-center">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login
+          </a>
+          <a routerLink="/register" class="px-4 py-2 border border-indigo-600 text-indigo-400 hover:bg-indigo-900/50 text-sm rounded-md flex-1 text-center flex items-center justify-center">
+            <i class="fas fa-user-plus mr-2"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav> -->
+
+
+<nav class="sticky top-0 z-50 bg-gray-900 shadow-lg px-4 py-3 border-b border-gray-700">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Logo/Brand -->
+    <a routerLink="/home" class="flex items-center text-white hover:text-indigo-400 transition-colors">
+      <i class="fas fa-book-open text-indigo-400 text-2xl mr-2"></i>
+      <span class="font-bold hidden sm:inline text-xl">GranthSangam</span>
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button (click)="isMenuOpen = !isMenuOpen" class="lg:hidden text-gray-300 hover:text-indigo-400 text-2xl focus:outline-none">
+      <i class="fas" [ngClass]="isMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex items-center space-x-8">
+      <!-- Nav Items -->
+      <div class="flex items-center space-x-8">
+        <a routerLink="/home" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Home">
+          <i class="fas fa-home text-2xl"></i>
+        </a>
+        <a routerLink="/books" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Browse Books">
+          <i class="fas fa-book text-2xl"></i>
+        </a>
+        <a routerLink="/about" class="text-gray-300 hover:text-indigo-400 transition-colors" title="About">
+          <i class="fas fa-info-circle text-2xl"></i>
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/exchange" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Exchange">
+          <i class="fas fa-exchange-alt text-2xl"></i>
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/upload" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Upload Book">
+          <i class="fas fa-upload text-2xl"></i>
+        </a>
+        <!-- Admin Dashboard Link - Visible only to admins -->
+        <a *ngIf="authService.isAdmin()" routerLink="/admin/dashboard" class="text-gray-300 hover:text-indigo-400 transition-colors" title="Admin Dashboard">
+          <i class="fas fa-tachometer-alt text-2xl"></i>
+        </a>
+      </div>
+
+      <!-- Right-aligned items -->
+      <div class="flex items-center space-x-6 ml-6">
+        <!-- Notifications -->
+        <div class="relative">
+          <button 
+            (click)="toggleNotifications()" 
+            data-notification-button
+            class="text-gray-300 hover:text-indigo-500 relative transition-colors"
+          >
+            <i class="fas fa-bell text-2xl"></i>
+            <span *ngIf="unreadCount > 0" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs h-5 w-5 flex items-center justify-center rounded-full">
+              {{ unreadCount }}
+            </span>
+          </button>
+          <div 
+            *ngIf="showNotifications" 
+            class="notification-dropdown absolute right-0 w-80 bg-gray-800 border border-gray-700 text-gray-100 mt-3 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto"
+          >
+            <div *ngFor="let notification of notifications" 
+                 (click)="markAsRead(notification.id)"
+                 [ngClass]="notification.seen ? 'bg-gray-700' : 'bg-indigo-900'"
+                 class="px-4 py-3 cursor-pointer hover:bg-gray-700 text-sm border-b border-gray-700 last:border-b-0">
+              <div class="flex">
+                <i class="fas fa-bell mr-3 mt-0.5 text-indigo-400"></i>
+                <div>
+                  <div class="font-medium">{{ notification.message }}</div>
+                  <div class="text-xs text-gray-400 mt-1">{{ notification.createdAt | date:'short' }}</div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="notifications.length === 0" class="px-4 py-3 text-sm text-gray-400">
+              No new notifications
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <div *ngIf="authService.isAuthenticated" class="relative">
+          <button 
+            (click)="toggleProfile()" 
+            data-profile-button
+            class="text-gray-300 hover:text-indigo-500 transition-colors"
+          >
+            <i class="fas fa-user-circle text-2xl"></i>
+          </button>
+          <div 
+            *ngIf="showProfile" 
+            class="profile-dropdown absolute right-0 w-56 bg-gray-800 border border-gray-700 text-gray-100 mt-3 rounded-lg shadow-xl z-50"
+          >
+            <div class="px-4 py-3 border-b border-gray-700 bg-gray-900">
+              <div class="font-medium text-indigo-400">{{ authService.getUsername() }}</div>
+              <div class="text-xs text-gray-400">{{ authService.getUserEmail() }}</div>
+              <div class="text-xs mt-1">
+                <span class="px-2 py-1 rounded-full" 
+                      [ngClass]="authService.isAdmin() ? 'bg-purple-900 text-purple-300' : 'bg-blue-900 text-blue-300'">
+                  {{ authService.isAdmin() ? 'Admin' : 'User' }}
+                </span>
+              </div>
+            </div>
+            <a routerLink="/profile" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-user-edit mr-3 text-indigo-400"></i> Profile
+            </a>
+            <a routerLink="/my-books" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-book mr-3 text-indigo-400"></i> My Books
+            </a>
+            <!-- Dashboard link in dropdown -->
+            <a *ngIf="authService.isAdmin()" routerLink="/admin-dashboard" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-tachometer-alt mr-3 text-purple-400"></i> Admin Dashboard
+            </a>
+            <a *ngIf="!authService.isAdmin()" routerLink="/user-dashboard" class="flex items-center px-4 py-3 hover:bg-gray-700 text-sm">
+              <i class="fas fa-tachometer-alt mr-3 text-blue-400"></i> User Dashboard
+            </a>
+            <div class="border-t border-gray-700">
+              <button (click)="logout()" class="flex items-center w-full text-left px-4 py-3 hover:bg-gray-700 text-sm text-red-400">
+                <i class="fas fa-sign-out-alt mr-3"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Auth Buttons -->
+        <div *ngIf="!authService.isAuthenticated" class="flex space-x-3">
+          <a routerLink="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm rounded-md transition-colors flex items-center">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login
+          </a>
+          <a routerLink="/register" class="px-4 py-2 border border-indigo-600 text-indigo-400 hover:bg-indigo-900/50 text-sm rounded-md transition-colors flex items-center">
+            <i class="fas fa-user-plus mr-2"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div [ngClass]="{ 'block': isMenuOpen, 'hidden': !isMenuOpen }" 
+         class="lg:hidden absolute top-16 left-0 right-0 bg-gray-800 p-4 shadow-lg z-40">
+      <div class="flex flex-col space-y-4">
+        <a routerLink="/home" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-home mr-3 text-xl"></i> Home
+        </a>
+        <a routerLink="/books" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-book mr-3 text-xl"></i> Browse Books
+        </a>
+        <a routerLink="/about" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-info-circle mr-3 text-xl"></i> About
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/exchange" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-exchange-alt mr-3 text-xl"></i> Exchange
+        </a>
+        <a *ngIf="authService.isAuthenticated" routerLink="/upload" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-upload mr-3 text-xl"></i> Upload Book
+        </a>
+        <!-- Admin Dashboard in mobile menu -->
+        <a *ngIf="authService.isAdmin()" routerLink="/admin-dashboard" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-tachometer-alt mr-3 text-xl"></i> Admin Dashboard
+        </a>
+        <!-- User Dashboard in mobile menu -->
+        <a *ngIf="authService.isAuthenticated && !authService.isAdmin()" routerLink="/user-dashboard" class="flex items-center text-gray-300 hover:text-indigo-400 text-lg">
+          <i class="fas fa-tachometer-alt mr-3 text-xl"></i> My Dashboard
+        </a>
+        
+        <div *ngIf="!authService.isAuthenticated" class="flex space-x-3 pt-4">
+          <a routerLink="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm rounded-md flex-1 text-center flex items-center justify-center">
+            <i class="fas fa-sign-in-alt mr-2"></i> Login
+          </a>
+          <a routerLink="/register" class="px-4 py-2 border border-indigo-600 text-indigo-400 hover:bg-indigo-900/50 text-sm rounded-md flex-1 text-center flex items-center justify-center">
+            <i class="fas fa-user-plus mr-2"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

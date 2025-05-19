@@ -1,0 +1,164 @@
+<div class="min-h-screen bg-gray-900 text-gray-100">
+  <!-- Header Component -->
+  <app-header></app-header>
+
+  <!-- Main Dashboard Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <!-- Sidebar Navigation -->
+      <div class="lg:col-span-1 bg-gray-800 rounded-xl shadow-lg p-4 h-fit">
+        <nav class="space-y-2">
+          <button (click)="activeSection = 'dashboard'" class="w-full text-left px-4 py-3 rounded-lg flex items-center"
+            [ngClass]="activeSection === 'dashboard' ? 'bg-indigo-600' : 'hover:bg-gray-700'">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            Dashboard
+          </button>
+          <button (click)="activeSection = 'users'" class="w-full text-left px-4 py-3 rounded-lg flex items-center"
+            [ngClass]="activeSection === 'users' ? 'bg-indigo-600' : 'hover:bg-gray-700'">
+            <i class="fas fa-users mr-3"></i>
+            User Management
+          </button>
+          <button (click)="activeSection = 'books'" class="w-full text-left px-4 py-3 rounded-lg flex items-center"
+            [ngClass]="activeSection === 'books' ? 'bg-indigo-600' : 'hover:bg-gray-700'">
+            <i class="fas fa-book mr-3"></i>
+            Book Management
+          </button>
+          <button (click)="activeSection = 'exchanges'" class="w-full text-left px-4 py-3 rounded-lg flex items-center"
+            [ngClass]="activeSection === 'exchanges' ? 'bg-indigo-600' : 'hover:bg-gray-700'">
+            <i class="fas fa-exchange-alt mr-3"></i>
+            Exchange Management
+          </button>
+        </nav>
+
+        <!-- Admin Stats -->
+        <div class="mt-8 pt-6 border-t border-gray-700">
+          <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">System Stats</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Total Users</span>
+              <span class="font-bold">{{ adminStats.totalUsers }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Total Books</span>
+              <span class="font-bold">{{ adminStats.totalBooks }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Pending Exchanges</span>
+              <span class="font-bold">{{ adminStats.pendingExchanges }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-300">Completed Exchanges</span>
+              <span class="font-bold">{{ adminStats.completedExchanges }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="lg:col-span-3 space-y-6">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="flex justify-center items-center py-12">
+          <i class="fas fa-spinner fa-spin text-indigo-500 text-4xl mr-4"></i>
+          <span class="text-xl">Loading admin dashboard...</span>
+        </div>
+
+        <!-- Dashboard Overview -->
+        <div *ngIf="!isLoading && activeSection === 'dashboard'" class="bg-gray-800 rounded-xl shadow-lg p-6">
+          <h2 class="text-xl font-bold mb-6 flex items-center">
+            <i class="fas fa-tachometer-alt text-indigo-400 mr-3"></i>
+            Admin Dashboard Overview
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gray-700 rounded-lg p-4 shadow hover:shadow-md transition-shadow">
+              <div class="flex items-center">
+                <div class="p-3 rounded-full bg-indigo-500/20 mr-4">
+                  <i class="fas fa-users text-indigo-400 text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Total Users</p>
+                  <p class="text-2xl font-bold">{{ adminStats.totalUsers }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-700 rounded-lg p-4 shadow hover:shadow-md transition-shadow">
+              <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-500/20 mr-4">
+                  <i class="fas fa-book text-green-400 text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Total Books</p>
+                  <p class="text-2xl font-bold">{{ adminStats.totalBooks }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-700 rounded-lg p-4 shadow hover:shadow-md transition-shadow">
+              <div class="flex items-center">
+                <div class="p-3 rounded-full bg-yellow-500/20 mr-4">
+                  <i class="fas fa-clock text-yellow-400 text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Pending Exchanges</p>
+                  <p class="text-2xl font-bold">{{ adminStats.pendingExchanges }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-700 rounded-lg p-4 shadow hover:shadow-md transition-shadow">
+              <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-500/20 mr-4">
+                  <i class="fas fa-check-circle text-blue-400 text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-400">Completed Exchanges</p>
+                  <p class="text-2xl font-bold">{{ adminStats.completedExchanges }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-700 rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
+              <i class="fas fa-bell text-yellow-400 mr-2"></i>
+              Recent Activity
+            </h3>
+            <div *ngIf="recentActivity.length > 0; else noActivity" class="space-y-4">
+              <div *ngFor="let activity of recentActivity"
+                class="flex items-start pb-4 border-b border-gray-600 last:border-0">
+                <div class="p-2 rounded-full bg-indigo-500/20 mr-4 mt-1">
+                  <i [class]="getActivityIcon(activity.type)" class="text-indigo-400"></i>
+                </div>
+                <div class="flex-1">
+                  <p class="font-medium">{{ activity.message }}</p>
+                  <p class="text-sm text-gray-400">{{ activity.timestamp | date:'medium' }}</p>
+                </div>
+              </div>
+            </div>
+            <ng-template #noActivity>
+              <p class="text-gray-400 italic py-4">No recent activity</p>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- User Management Section -->
+        <div *ngIf="!isLoading && activeSection === 'users'" class="bg-gray-800 rounded-xl shadow-lg p-6">
+          <app-user-management></app-user-management>
+        </div>
+
+        <!-- Book Management Section -->
+        <div *ngIf="!isLoading && activeSection === 'books'" class="bg-gray-800 rounded-xl shadow-lg p-6">
+          <app-book-management></app-book-management>
+        </div>
+
+        <div *ngIf="!isLoading && activeSection === 'exchanges'" class="bg-gray-800 rounded-xl shadow-lg p-6">
+          <app-exchange-management [allExchanges]="allExchanges" [exchangeStats]="exchangeStats" [isLoading]="isLoading"
+            (approve)="onApproveExchange($event)" (reject)="onRejectExchange($event)"
+            (cancel)="onCancelExchange($event)">
+          </app-exchange-management>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

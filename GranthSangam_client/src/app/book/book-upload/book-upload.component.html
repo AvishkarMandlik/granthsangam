@@ -1,0 +1,234 @@
+
+<div class="min-h-screen bg-gray-900 text-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-2xl font-bold mb-6 flex items-center">
+      <i class="fas fa-upload text-indigo-400 mr-2"></i>
+      Upload a New Book
+    </h2>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex items-center justify-center p-8">
+      <i class="fas fa-spinner fa-spin text-indigo-500 text-3xl mr-3"></i>
+      <span class="text-lg">Uploading book...</span>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="bg-red-800/50 border border-red-700 rounded-lg p-4 mb-6">
+      <div class="flex items-start">
+        <i class="fas fa-exclamation-circle text-red-300 mt-1 mr-3"></i>
+        <div>
+          <p class="text-red-100">{{ errorMessage }}</p>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="bg-gray-800 rounded-xl shadow-xl p-6">
+      <!-- Title -->
+      <div class="mb-6">
+        <label for="title" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-heading text-blue-400 mr-2"></i>
+          Title *
+        </label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter book title"
+        >
+        <div *ngIf="uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched" class="text-red-400 text-sm mt-1">
+          <i class="fas fa-exclamation-circle mr-1"></i> Title is required
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-6">
+        <label for="description" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-align-left text-indigo-400 mr-2"></i>
+          Description
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter book description"
+        ></textarea>
+      </div>
+
+      <!-- Subject -->
+      <div class="mb-6">
+        <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-book-open text-indigo-400 mr-2"></i>
+          Subject *
+        </label>
+        <input
+          type="text"
+          id="subject"
+          formControlName="subject"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter subject"
+        >
+        <div *ngIf="uploadForm.get('subject')?.invalid && uploadForm.get('subject')?.touched" class="text-red-400 text-sm mt-1">
+          <i class="fas fa-exclamation-circle mr-1"></i> Subject is required
+        </div>
+      </div>
+
+      <!-- Author -->
+      <div class="mb-6">
+        <label for="author" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-user-edit text-blue-400 mr-2"></i>
+          Author
+        </label>
+        <input
+          type="text"
+          id="author"
+          formControlName="author"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter author name"
+        >
+      </div>
+
+      <!-- Edition -->
+      <div class="mb-6">
+        <label for="edition" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-star text-yellow-400 mr-2"></i>
+          Edition
+        </label>
+        <input
+          type="text"
+          id="edition"
+          formControlName="edition"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter edition (e.g. 3rd)"
+        >
+      </div>
+
+      <!-- Condition -->
+      <div class="mb-6">
+        <label for="bookCondition" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-check-circle text-emerald-400 mr-2"></i>
+          Condition
+        </label>
+        <input
+          type="text"
+          id="bookCondition"
+          formControlName="bookCondition"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="Enter condition (e.g. New, Good)"
+        >
+      </div>
+
+      <!-- Image URL -->
+      <div class="mb-6">
+        <label for="imageUrl" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-image text-purple-400 mr-2"></i>
+          Cover Image URL
+        </label>
+        <input
+          type="url"
+          id="imageUrl"
+          formControlName="imageUrl"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          placeholder="https://example.com/image.jpg"
+        >
+      </div>
+
+      <!-- Listing Type -->
+      <div class="mb-6">
+        <label for="listingType" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-tag text-yellow-400 mr-2"></i>
+          Listing Type *
+        </label>
+        <select
+          id="listingType"
+          formControlName="listingType"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="" disabled>Select Listing Type</option>
+          <option *ngFor="let type of listingTypes" [value]="type">{{ type }}</option>
+        </select>
+        <div *ngIf="uploadForm.get('listingType')?.invalid && uploadForm.get('listingType')?.touched" class="text-red-400 text-sm mt-1">
+          <i class="fas fa-exclamation-circle mr-1"></i> Listing Type is required
+        </div>
+      </div>
+
+      <!-- Conditional Fields -->
+      <div class="space-y-6">
+        <!-- Expected Exchange -->
+        <div *ngIf="uploadForm.get('listingType')?.value === 'EXCHANGE'" class="mb-6">
+          <label for="expectedExchange" class="block text-sm font-medium text-gray-300 mb-2">
+            <i class="fas fa-exchange-alt text-yellow-300 mr-2"></i>
+            Expected Exchange *
+          </label>
+          <input
+            type="text"
+            id="expectedExchange"
+            formControlName="expectedExchange"
+            class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="What book would you like in exchange?"
+          >
+          <div *ngIf="uploadForm.get('expectedExchange')?.invalid && uploadForm.get('expectedExchange')?.touched" class="text-red-400 text-sm mt-1">
+            <i class="fas fa-exclamation-circle mr-1"></i> Expected Exchange is required
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div *ngIf="uploadForm.get('listingType')?.value === 'SELL'" class="mb-6">
+          <label for="price" class="block text-sm font-medium text-gray-300 mb-2">
+            <i class="fas fa-rupee-sign text-green-400 mr-2"></i>
+            Price (₹) *
+          </label>
+          <input
+            type="number"
+            id="price"
+            formControlName="price"
+            class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Enter price"
+            min="0"
+          >
+          <div *ngIf="uploadForm.get('price')?.invalid && uploadForm.get('price')?.touched" class="text-red-400 text-sm mt-1">
+            <i class="fas fa-exclamation-circle mr-1"></i> Valid price is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div formGroupName="category" class="mb-6">
+        <label for="categoryId" class="block text-sm font-medium text-gray-300 mb-2">
+          <i class="fas fa-layer-group text-blue-400 mr-2"></i>
+          Category *
+        </label>
+        <select
+          id="categoryId"
+          formControlName="id"
+          class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="" disabled>Select Category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <div *ngIf="uploadForm.get('category.id')?.invalid && uploadForm.get('category.id')?.touched" 
+             class="text-red-400 text-sm mt-1">
+          <i class="fas fa-exclamation-circle mr-1"></i> Category is required
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end mt-8">
+        <button
+          type="submit"
+          [disabled]="loading || uploadForm.invalid"
+          class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span *ngIf="loading" class="mr-2">
+            <i class="fas fa-spinner fa-spin"></i>
+          </span>
+          <i class="fas fa-upload mr-2"></i>
+          Upload Book
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="p-4 bg-gray-900 text-white rounded-lg shadow-md">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold">Exchange Requests</h2>
+    <div class="space-x-2">
+      <button class="px-3 py-1 rounded-md font-medium"
+        [ngClass]="activeTab === 'incoming' ? 'bg-indigo-600' : 'bg-gray-700'" (click)="activeTab = 'incoming'">
+        Incoming
+      </button>
+      <button class="px-3 py-1 rounded-md font-medium"
+        [ngClass]="activeTab === 'outgoing' ? 'bg-indigo-600' : 'bg-gray-700'" (click)="activeTab = 'outgoing'">
+        Outgoing
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="text-center py-4">
+    <i class="fas fa-spinner fa-spin text-indigo-500 text-xl"></i>
+    <p>Loading requests...</p>
+  </div>
+
+  <div *ngIf="!isLoading && activeTab === 'incoming'">
+    <div *ngIf="incomingRequests.length === 0" class="text-gray-400 italic">No incoming requests.</div>
+    <div *ngFor="let request of incomingRequests" class="bg-gray-800 p-4 rounded-md mb-3 shadow-sm">
+      <p class="font-semibold">Request from: {{ getRequesterName(request) }}</p>
+      <p class="text-gray-600 mt-1">Book: {{ getBookTitle(request) }}</p>
+
+      <p><strong>Status:</strong> <span [ngClass]="getStatusClass(request.status)">{{ request.status }}</span></p>
+      <div class="mt-2 space-x-2" *ngIf="request.status === 'PENDING'">
+        <button (click)="approveRequest(request.id)"
+          class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
+          <i class="fas fa-check mr-1"></i> Approve
+        </button>
+        <button (click)="rejectRequest(request.id)" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+          <i class="fas fa-times mr-1"></i> Reject
+        </button>
+      </div>
+      <div class="mt-2" *ngIf="request.status === 'APPROVED'">
+        <button (click)="completeExchange(request.id)"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+          <i class="fas fa-check-double mr-1"></i> Mark Completed
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && activeTab === 'outgoing'">
+    <div *ngIf="outgoingRequests.length === 0" class="text-gray-400 italic">No outgoing requests.</div>
+    <div *ngFor="let request of outgoingRequests" class="bg-gray-800 p-4 rounded-md mb-3 shadow-sm">
+      <p class="font-semibold">Request to: {{ request.toUser?.name || 'Unknown User' }}</p>
+      <p class="text-gray-600 mt-1">Book: {{ getBookTitle(request) }}</p>
+      <p><strong>Status:</strong> <span [ngClass]="getStatusClass(request.status)">{{ request.status }}</span></p>
+      <div class="mt-2 space-x-2" *ngIf="request.status === 'PENDING'">
+        <button (click)="cancelRequest(request.id)"
+          class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded">
+          <i class="fas fa-times-circle mr-1"></i> Cancel Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="mt-3 space-y-2">
+  <!-- Owner View -->
+  <ng-container *ngIf="isOwner">
+    <p class="text-sm italic text-yellow-500">
+      <i class="fas fa-user-shield mr-1"></i> You are the owner of this book.
+    </p>
+    
+    <!-- Incoming Requests Section -->
+    <div *ngIf="pendingRequests.length > 0" class="mt-2">
+      <h4 class="text-sm font-semibold text-gray-300 mb-1">Incoming Requests:</h4>
+      <div *ngFor="let req of pendingRequests" class="bg-gray-800 p-2 rounded mb-2">
+        <p class="text-sm">
+          <i class="fas fa-user mr-1"></i> 
+          From: {{ req.fromUser.name }}
+        </p>
+        <div class="flex space-x-2 mt-1">
+          <button (click)="approveRequest(req.id)" 
+                  class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+                  [disabled]="isLoading">
+            <i class="fas fa-check mr-1"></i> Approve
+          </button>
+          <button (click)="rejectRequest(req.id)" 
+                  class="text-xs bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded"
+                  [disabled]="isLoading">
+            <i class="fas fa-times mr-1"></i> Reject
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Non-Owner View -->
+  <ng-container *ngIf="!isOwner && bookAvailable">
+    <!-- No Request State -->
+    <ng-container *ngIf="!hasRequest">
+      <button (click)="requestExchange()"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md shadow inline-flex items-center"
+              [disabled]="isLoading">
+        <i class="fas fa-exchange-alt mr-2"></i> Request Exchange
+      </button>
+    </ng-container>
+
+    <!-- Has Request State -->
+    <ng-container *ngIf="hasRequest && isRequester">
+      <div class="text-sm">
+        <p>
+          <i [class]="getStatusIcon() + ' mr-1'"></i>
+          Status: 
+          <span [ngClass]="getStatusClass(currentRequest?.status)">
+            {{ getStatusText() }}
+          </span>
+        </p>
+        
+        <div class="mt-2 space-x-2">
+          <!-- Cancel Button -->
+          <button *ngIf="currentRequest?.status === 'PENDING'"
+                  (click)="cancelRequest()"
+                  class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm"
+                  [disabled]="isLoading">
+            <i class="fas fa-times-circle mr-1"></i> Cancel
+          </button>
+          
+          <!-- Complete Button -->
+          <button *ngIf="currentRequest?.status === 'APPROVED'"
+                  (click)="completeExchange(currentRequest.id)"
+                  class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm"
+                  [disabled]="isLoading">
+            <i class="fas fa-check-double mr-1"></i> Mark Completed
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Book Already Requested by Someone Else -->
+    <ng-container *ngIf="hasRequest && !isRequester">
+      <p class="text-sm italic text-gray-400">
+        <i class="fas fa-ban mr-1"></i> Book already requested by another user
+      </p>
+    </ng-container>
+  </ng-container>
+
+  <!-- Book Not Available -->
+  <ng-container *ngIf="!isOwner && !bookAvailable">
+    <p class="text-sm italic text-gray-400">
+      <i class="fas fa-lock mr-1"></i> This book is not available for exchange
+    </p>
+  </ng-container>
+</div>

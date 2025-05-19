@@ -1,0 +1,70 @@
+user-book-list.component.html
+<div class="flex justify-between items-center mb-6">
+  <h2 class="text-xl font-bold flex items-center">
+    <i class="fas fa-book text-indigo-400 mr-3"></i>
+    My Books
+  </h2>
+  <div class="relative w-64">
+    <input type="text" placeholder="Search my books..." 
+      class="w-full bg-gray-700 border border-gray-600 rounded-md pl-10 pr-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+      [(ngModel)]="bookSearchQuery" (input)="onSearchChange()">
+    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="flex justify-center items-center py-12">
+  <i class="fas fa-spinner fa-spin text-indigo-500 text-4xl mr-4"></i>
+  <span class="text-xl">Loading books...</span>
+</div>
+
+<div *ngIf="!isLoading && filteredBooks.length === 0" class="text-center py-12">
+  <i class="fas fa-book-open text-gray-500 text-5xl mb-4"></i>
+  <p class="text-gray-400 text-lg mb-6">You haven't listed any books yet.</p>
+  <button (click)="onUploadNew()" class="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-md text-lg font-medium">
+    <i class="fas fa-upload mr-2"></i> Upload Your First Book
+  </button>
+</div>
+
+<div *ngIf="!isLoading && filteredBooks.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div *ngFor="let book of filteredBooks" class="bg-gray-700 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+    <div class="h-48 bg-gray-600 flex items-center justify-center relative">
+      <img *ngIf="book.imageUrl" [src]="book.imageUrl" alt="Book cover" class="h-full w-full object-cover">
+      <i *ngIf="!book.imageUrl" class="fas fa-book-open text-5xl text-gray-400"></i>
+      <span class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium"
+        [ngClass]="getStatusClass(book.status)">
+        {{ book.status }}
+      </span>
+    </div>
+    <div class="p-4">
+      <h3 class="font-bold text-lg mb-1 truncate">{{ book.title }}</h3>
+      <p class="text-gray-400 text-sm mb-2">{{ book.author || 'Unknown author' }}</p>
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-xs px-2 py-1 rounded bg-gray-600">{{ book.listingType }}</span>
+        <span *ngIf="book.listingType === 'SELL'" class="font-bold text-green-400">₹{{ book.price }}</span>
+        <span *ngIf="book.listingType === 'EXCHANGE'" class="text-yellow-400 text-xs">For: {{ book.expectedExchange }}</span>
+      </div>
+      <div class="flex justify-between pt-3 border-t border-gray-600">
+        <button (click)="onEditBook(book)" class="text-indigo-400 hover:text-indigo-300 text-sm flex items-center">
+          <i class="fas fa-edit mr-1"></i> Edit
+        </button>
+        <button (click)="onDeleteBook(book.id)" class="text-red-400 hover:text-red-300 text-sm flex items-center">
+          <i class="fas fa-trash-alt mr-1"></i> Remove
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!isLoading && filteredBooks.length > 0" class="mt-6 flex justify-between items-center">
+  <p class="text-gray-400 text-sm">Showing {{ filteredBooks.length }} of {{ books.length }} books</p>
+  <div class="flex space-x-2">
+    <button *ngIf="currentBookPage > 0" (click)="onPrevPage()" 
+      class="px-3 py-1 bg-gray-700 rounded-md hover:bg-gray-600">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button *ngIf="hasMoreBooks" (click)="onNextPage()" 
+      class="px-3 py-1 bg-gray-700 rounded-md hover:bg-gray-600">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>
