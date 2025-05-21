@@ -1,5 +1,6 @@
 # 📚 GranthSangam – Second-Hand Book Exchange Platform
-![Alt text](./GranthSangam_client/src/assets/GranthSangam.jpg)
+<img src="./GranthSangam_client/src/assets/GranthSangam.jpg" alt="Grantsangama Banner" height="500">
+
 **GranthSangam** (Granth = Book, Sangam = Union) is a web-based platform where users can exchange, donate, or request second-hand books. It promotes affordable education, sustainability, and builds a community of readers helping each other.
 
 ---
