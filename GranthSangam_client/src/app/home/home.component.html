@@ -1,46 +1,210 @@
-<!-- Header/Navbar -->
+ <!-- Header/Navbar -->
 <app-header></app-header>
-<br/>
 
-
-
-<!-- Book List Component -->
-<app-book-list ></app-book-list>
-
-<!-- Carousel / Slider -->
-<!-- <div id="mainCarousel" class="carousel slide mb-4"  data-bs-ride="carousel">
-  <div class="carousel-inner text-center" >
-    <div class="carousel-item active">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4EuGrDb6PPgc3HVjOUJNaYj7HlwI3ouNApg&s" 
-           class="img-fluid w-75 mx-auto d-block rounded shadow-sm" alt="Book Image">
+<!-- Hero Section -->
+<div class="bg-gradient-to-r from-blue-50 to-indigo-50 py-16">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row items-center">
+      <!-- Text Content -->
+      <div class="md:w-1/2 mb-10 md:mb-0 md:pr-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+          Why should you join <span class="text-indigo-600">GranthSangam</span>
+        </h1>
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+          GranthSangam is a leading book sharing platform that connects book lovers who want to share their books with those who want to read without buying. Join us to promote sustainable reading and improve literacy while building a community of passionate readers.
+        </p>
+        <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300">
+          Join Now <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+      
+      <!-- Image Content -->
+      <div class="md:w-1/2 flex justify-center">
+        <div class="relative w-full max-w-md">
+          <img src="assets/homepage-img.jpg" 
+               alt="People sharing books"
+               class="w-full h-auto rounded-xl shadow-xl object-cover"
+               loading="lazy">      
+        </div>
+      </div>
     </div>
-    <div class="carousel-item">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4EuGrDb6PPgc3HVjOUJNaYj7HlwI3ouNApg&s" 
-           class="img-fluid w-75 mx-auto d-block rounded shadow-sm" alt="Book Image">
+  </div>
+</div>
+
+
+<!-- Features Section -->
+<div class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Find Books</h2>
+      <div class="w-20 h-1 bg-indigo-600 mx-auto"></div>
     </div>
-    <div class="carousel-item">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4EuGrDb6PPgc3HVjOUJNaYj7HlwI3ouNApg&s" 
-           class="img-fluid w-75 mx-auto d-block rounded shadow-sm" alt="Book Image">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Secure Card -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+        <div class="p-6 text-center">
+          <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-shield-alt text-indigo-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Secure</h3>
+          <p class="text-gray-600">We ensure that every transaction is secure with a compliance procedure.</p>
+        </div>
+      </div>
+      
+      <!-- Easy Card -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+        <div class="p-6 text-center">
+          <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-thumbs-up text-indigo-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy</h3>
+          <p class="text-gray-600">Find your favorite book, request from owner, and arrange pickup.</p>
+        </div>
+      </div>
+      
+      <!-- Efficient Card -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+        <div class="p-6 text-center">
+          <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-tachometer-alt text-indigo-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Efficient</h3>
+          <p class="text-gray-600">Track your booking and get notified for every process change.</p>
+        </div>
+      </div>
+      
+      <!-- Search Card -->
+      <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+        <div class="p-6 text-center">
+          <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-search text-indigo-600 text-2xl"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Search</h3>
+          <p class="text-gray-600">Discover books from various authors in multiple languages.</p>
+        </div>
+      </div>
     </div>
-  </div> -->
+  </div>
+</div>
 
-  <!-- Controls -->
-  <!-- <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon bg-dark rounded-circle p-2" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div> -->
+<!-- Book Showcase Slider -->
+<div class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">
+        <i class="fas fa-book-open text-indigo-600 mr-2"></i>
+        Popular This Month
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Explore the most shared books in our community</p>
+    </div>
+    
+    <div class="relative">
+      <div class="book-slider flex overflow-x-auto pb-6 scroll-smooth">
+        <!-- Book 1 -->
+        <div class="flex-shrink-0 w-64 mx-4 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+          <img src="https://m.media-amazon.com/images/I/71aFt4+OTOL._AC_UF1000,1000_QL80_.jpg" class="w-full h-48 object-cover" alt="Book Cover">
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">The Alchemist</h3>
+            <p class="text-gray-600 text-sm mb-2">Paulo Coelho</p>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="text-gray-600 text-sm ml-2">4.5</span>
+            </div>
+            <button class="w-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 rounded-md text-sm font-medium transition duration-300">
+              Request Book
+            </button>
+          </div>
+        </div>
+        
+        <!-- Book 2 -->
+        <div class="flex-shrink-0 w-64 mx-4 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+          <img src="https://m.media-amazon.com/images/I/71X1p4TGlxL._AC_UF1000,1000_QL80_.jpg" class="w-full h-48 object-cover" alt="Book Cover">
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Atomic Habits</h3>
+            <p class="text-gray-600 text-sm mb-2">James Clear</p>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <span class="text-gray-600 text-sm ml-2">4.0</span>
+            </div>
+            <button class="w-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 rounded-md text-sm font-medium transition duration-300">
+              Request Book
+            </button>
+          </div>
+        </div>
+        
+        <!-- Book 3 -->
+        <div class="flex-shrink-0 w-64 mx-4 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+          <img src="https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UF1000,1000_QL80_.jpg" class="w-full h-48 object-cover" alt="Book Cover">
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">Rich Dad Poor Dad</h3>
+            <p class="text-gray-600 text-sm mb-2">Robert Kiyosaki</p>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span class="text-gray-600 text-sm ml-2">5.0</span>
+            </div>
+            <button class="w-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 rounded-md text-sm font-medium transition duration-300">
+              Request Book
+            </button>
+          </div>
+        </div>
+        
+        <!-- Book 4 -->
+        <div class="flex-shrink-0 w-64 mx-4 bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+          <img src="https://m.media-amazon.com/images/I/71X1p4TGlxL._AC_UF1000,1000_QL80_.jpg" class="w-full h-48 object-cover" alt="Book Cover">
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-1">The Psychology of Money</h3>
+            <p class="text-gray-600 text-sm mb-2">Morgan Housel</p>
+            <div class="flex items-center text-yellow-400 mb-2">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+              <span class="text-gray-600 text-sm ml-2">4.5</span>
+            </div>
+            <button class="w-full bg-indigo-100 hover:bg-indigo-200 text-indigo-700 py-2 rounded-md text-sm font-medium transition duration-300">
+              Request Book
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Slider Navigation -->
+      <button class="book-slider-prev absolute left-0 top-1/2 -translate-y-1/2 -ml-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition duration-300">
+        <i class="fas fa-chevron-left text-indigo-600"></i>
+      </button>
+      <button class="book-slider-next absolute right-0 top-1/2 -translate-y-1/2 -mr-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition duration-300">
+        <i class="fas fa-chevron-right text-indigo-600"></i>
+      </button>
+    </div>
+  </div>
+</div>
 
-
-<div class="container py-5">
-  <h2 class="text-center mb-4 text-primary">
-    <i class="fa fa-star text-warning me-2"></i> Featured Books
-  </h2>
-
+<!-- Featured Books Section -->
+<div class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">
+        <i class="fas fa-star text-yellow-400 mr-2"></i>
+        Featured Books
+      </h2>
+      <p class="text-gray-600 max-w-2xl mx-auto">Discover our curated collection of featured books</p>
+    </div>
+    <app-book-list></app-book-list>
+  </div>
+</div>
 
 <!-- Footer -->
 <app-footer></app-footer>
