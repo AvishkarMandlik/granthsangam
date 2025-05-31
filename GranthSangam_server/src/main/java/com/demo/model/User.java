@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 //@NoArgsConstructor
 //@AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "users")
 public class User {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
